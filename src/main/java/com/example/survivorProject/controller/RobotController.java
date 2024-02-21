@@ -11,14 +11,25 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sorted-robots")
+@RequestMapping("/robots")
 public class RobotController {
     @Autowired
     private RobotService robotService;
-    @GetMapping
-    public ResponseEntity<List<Robot>> getSortedRobots(){
-        String url = "https://robotstakeover20210903110417.azurewebsites.net/robotcpu";
-        List<Robot> sortedRobots = robotService.getSortedRobotsFromURL(url);
-        return ResponseEntity.ok(sortedRobots);
+    String url = "https://robotstakeover20210903110417.azurewebsites.net/robotcpu";
+    @GetMapping("/allrobots")
+    public ResponseEntity<List<Robot>> getAllRobots(){
+
+        List<Robot> allRobots = robotService.getAllRobots(url);
+        return ResponseEntity.ok(allRobots);
+    }
+    @GetMapping("/landrobots")
+    public ResponseEntity<List<List<Robot>>> getLandRobots(){
+        List<List<Robot>> landRobots = robotService.getLandRobots(url);
+        return ResponseEntity.ok(landRobots);
+    }
+    @GetMapping("/flyingrobots")
+    public ResponseEntity<List<List<Robot>>> getFlyingRobots(){
+        List<List<Robot>> flyingRobots =robotService.getFlyingRobots(url);
+        return ResponseEntity.ok(flyingRobots);
     }
 }

@@ -1,20 +1,12 @@
 package com.example.survivorProject.entity;
 
 import jakarta.persistence.*;
-
-@Entity
-@Table
+@Embeddable
 public class Inventory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
     private boolean hasWater;
     private boolean hasFood;
     private boolean hasMedication;
     private boolean hasAmmunition;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "survivor_id")
-    private Survivor survivor;
 
     public Inventory() {
     }
@@ -66,8 +58,5 @@ public class Inventory {
                 ", hasMedication=" + hasMedication +
                 ", hasAmmunition=" + hasAmmunition +
                 '}';
-    }
-
-    public void setSurvivor(Survivor survivor) {
     }
 }

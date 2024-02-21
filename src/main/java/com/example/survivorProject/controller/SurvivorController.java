@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/survivors")
@@ -20,17 +21,25 @@ public class SurvivorController {
         this.survivorService = survivorService;
     }
     @PostMapping("/add-new-survivor")
-    public ResponseEntity<Survivor> addSurvivor(@RequestBody Survivor survivor){
+    public ResponseEntity<Survivor> addSurvivorWithInventory(@RequestBody Survivor survivor){
         Survivor newSurvivor = survivorService.addSurvivorWithInventory(survivor);
         return new ResponseEntity<>(newSurvivor, HttpStatus.CREATED);
     }
-    //getting all survivors
     @GetMapping
     public ResponseEntity<List<Survivor>> getAllSurvivors(){
         List<Survivor> survivors = survivorService.getAllSurvivors();
         return new ResponseEntity<>(survivors, HttpStatus.OK);
     }
-    //Updating the location of a survivor
+    @GetMapping("/{survivorId}")
+    public ResponseEntity<Survivor> getSurvivorById(@PathVariable Long survivorId){
+        Optional<Survivor> survivor = survivorService.getSurvivorById(survivorId);
+         if(survivor.isPresent()){
+             return  new ResponseEntity<>(survivor.get(), HttpStatus.OK);
+         }
+         else {
+             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+         }
+    }
     @PatchMapping("/{survivorId}")
     public ResponseEntity<String> updateSurvivorLocation(@PathVariable long survivorId, @RequestBody SurvivorUpdateRequest survivorUpdateRequest){
         try{

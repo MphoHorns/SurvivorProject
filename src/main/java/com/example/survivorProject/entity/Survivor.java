@@ -2,9 +2,6 @@ package com.example.survivorProject.entity;
 
 import com.example.survivorProject.enumeration.Gender;
 import jakarta.persistence.*;
-
-import java.util.List;
-
 @Entity
 @Table
 public class Survivor {
@@ -20,18 +17,16 @@ public class Survivor {
 
     private int InfectionCounter;
     private boolean infected;
+    @Embedded
+    private Inventory inventories;
 
-    @OneToMany(mappedBy = "survivor")
-    private List<Inventory> inventories;
-
-    public List<Inventory> getInventories() {
+    public Inventory getInventories() {
         return inventories;
     }
 
-    public void setInventories(List<Inventory> inventories) {
+    public void setInventories(Inventory inventories) {
         this.inventories = inventories;
     }
-
     public Survivor() {
     }
 
